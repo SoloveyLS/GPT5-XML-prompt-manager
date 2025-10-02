@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="card">
+  <h2>XML Preview</h2>
+  <p class="help">
+    The document is wrapped in a single &lt;prompt&gt; root element.
+    Press Ctrl/Cmd+C to copy the XML.
+  </p>
+  <textarea autofocus readonly rows="28" class="preview">{{ xml_text }}</textarea>
+  <div class="stack">
+    <a href="{{ url_for('download_xml') }}" class="btn">Download XML</a>
+    <a href="{{ url_for('index') }}" class="btn secondary">Back to Builder</a>
+  </div>
+</div>
+{% endblock %}

@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+{% from "_field.html" import render_field %}
+
+{% block content %}
+<div class="layout">
+  <section class="left">
+    <div class="card">
+      <h2>New root field</h2>
+      <form action="{{ url_for('add_field') }}" method="post" class="stack">
+        <input type="text" name="tag" placeholder="e.g. notes" aria-label="Field name" autocomplete="off">
+        <button type="submit" class="btn">Add root field</button>
+      </form>
+      <p class="help">Tip: tag names are sanitized to valid XML (spaces become underscores, etc.).</p>
+    </div>
+
+    <div class="card">
+      <h2>Preview &amp; Export</h2>
+      <div class="stack">
+        <a href="{{ url_for('preview_xml') }}" class="btn">Preview XML</a>
+        <a href="{{ url_for('download_xml') }}" class="btn secondary">Download XML</a>
+      </div>
+      <p class="help">
+        Copy-to-clipboard typically requires JavaScript. This app uses a tiny script only for autosave;
+        the Preview page focuses the XML so you can press Ctrl/Cmd+C immediately.
+      </p>
+    </div>
+
+    <div class="card">
+      <h2>Reset</h2>
+      <a href="{{ url_for('reset') }}" class="btn danger">Reset to default template</a>
+    </div>
+
+    <div class="card muted">
+      <h2>OpenRouter naming helper (TBD)</h2>
+      <p>Future: call x-ai/grok-4-fast:free to suggest a field name from contents (API key configurable).</p>
+    </div>
+  </section>
+
+  <section class="right">
+    <div class="card">
+      <h2>Fields</h2>
+      <p class="help">Create nested fields, edit names and text, and reorder among siblings.</p>
+      <div class="tree">
+        {% for f in fields %}
+          {{ render_field(f) }}
+        {% else %}
+          <div class="muted">No fields yet. Add one on the left.</div>
+        {% endfor %}
+      </div>
+    </div>
+  </section>
+</div>
+{% endblock %}

@@ -1,0 +1,55 @@
+{% macro render_field(node, depth=0) %}
+<details class="field" open id="f-{{ node.id }}">
+  <summary class="field-summary">
+    <!-- Autosave: Tag edit -->
+    <form action="{{ url_for('update_field') }}" method="post" class="inline" data-autosave>
+      <input type="hidden" name="id" value="{{ node.id }}">
+      <input class="tag-input" type="text" name="tag" value="{{ node.tag }}" aria-label="Tag name" autocomplete="off">
+      <!-- <button type="submit" class="btn small">Save</button> -->
+      <!-- <span class="saved-indicator" aria-live="polite" hidden></span> -->
+    </form>
+
+    <!-- Move up/down (no autosave) -->
+    <form action="{{ url_for('move_field') }}" method="post" class="inline">
+      <input type="hidden" name="id" value="{{ node.id }}">
+      <button class="btn ghost small" type="submit" name="direction" value="up" aria-label="Move up">↑</button>
+      <button class="btn ghost small" type="submit" name="direction" value="down" aria-label="Move down">↓</button>
+    </form>
+
+    <!-- Delete (no autosave) -->
+    <form action="{{ url_for('delete_field') }}" method="post" class="inline">
+      <input type="hidden" name="id" value="{{ node.id }}">
+      <button class="btn danger small" type="submit">Delete</button>
+    </form>
+  </summary>
+
+  <div class="field-body">
+    <!-- Autosave: Text edit -->
+    <form action="{{ url_for('update_field') }}" method="post" class="stack" data-autosave>
+      <input type="hidden" name="id" value="{{ node.id }}">
+      <textarea name="text" rows="4" placeholder="Enter text for this field..." autocomplete="off">{{ node.text }}</textarea>
+      <div>
+        <!-- <button type="submit" class="btn">Save text</button> -->
+        <!-- <span class="saved-indicator" aria-live="polite" hidden></span> -->
+      </div>
+    </form>
+
+    <hr class="sep"/>
+
+    <!-- Add subfield (no autosave) -->
+    <form action="{{ url_for('add_field') }}" method="post" class="inline">
+      <input type="hidden" name="parent_id" value="{{ node.id }}">
+      <input type="text" name="tag" placeholder="New subfield name" aria-label="New subfield name" autocomplete="off">
+      <button type="submit" class="btn">Add subfield</button>
+    </form>
+
+    {% if node.children %}
+    <div class="children">
+      {% for child in node.children %}
+        {{ render_field(child, depth+1) }}
+      {% endfor %}
+    </div>
+    {% endif %}
+  </div>
+</details>
+{% endmacro %}

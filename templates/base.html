@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>XML Prompt Builder</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+  <!-- Tiny JS for autosave only -->
+  <script defer src="{{ url_for('static', filename='autosave.js') }}"></script>
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <div class="brand">XML Prompt Builder</div>
+      <nav class="nav">
+        <a href="{{ url_for('index') }}">Builder</a>
+        <a href="{{ url_for('preview_xml') }}">Preview XML</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container">
+    {% block content %}{% endblock %}
+  </main>
+  <footer class="site-footer">
+    <div class="container">
+      <div class="muted">Tiny JS only for autosave. Everything else is clean HTML + Python. • Optional OpenRouter naming helper (TBD).</div>
+    </div>
+  </footer>
+</body>
+</html>
