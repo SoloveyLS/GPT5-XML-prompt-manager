@@ -7,7 +7,7 @@ name = "xml-manager"
 version = "0.1.0"
 description = "A lightweight XML manager providing fast XML prompt generation for GPT-5."
 authors = [
-    { name = "Your Name", email = "your.email@example.com" }
+    { name = "Oleg Solontsov", email = "solontsov.o@gmail.com" }
 ]
 readme = "README.md"
 license = { text = "MIT" }
@@ -17,5 +17,4 @@ dependencies = [
 ]
 
 [project.urls]
-Homepage = "https://example.com/xml-manager"
-Repository = "https://github.com/yourname/xml-manager"
+Repository = "https://github.com/SoloveyLS/GPT5-XML-prompt-manager"
