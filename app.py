@@ -3,10 +3,13 @@ import uuid
 from pathlib import Path
 from flask import Flask, render_template, request, redirect, url_for, make_response
 
+DEV = True
 
 def resource_path(path):
     import os, sys
+    global DEV
     if hasattr(sys, "_MEIPASS"):  # Only exists inside PyInstaller binary
+        DEV = False
         return os.path.join(sys._MEIPASS, path)
     return os.path.join(os.path.abspath("."), path)
 
@@ -66,28 +69,6 @@ def add_field():
     save_state(fields)
     return anchor_redirect(new.id)
 
-
-# @app.route("/update", methods=["POST"])
-# def update_field():
-#     fid = request.form.get("id")
-#     if not fid:
-#         return anchor_redirect()
-
-#     node = find_by_id(fields, fid)
-#     if not node:
-#         return anchor_redirect()
-
-#     tag_raw = request.form.get("tag")
-#     text = request.form.get("text")
-
-#     if tag_raw is not None:
-#         node.tag = sanitize_tag(tag_raw)
-
-#     if text is not None:
-#         node.text = text
-
-#     save_state(fields)
-#     return anchor_redirect(fid)
 
 @app.route("/update", methods=["POST"])
 def update_field():
@@ -178,4 +159,4 @@ def reset():
 
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run(debug=not DEV)
