@@ -1,17 +1,14 @@
 from __future__ import annotations
 import uuid
-from pathlib import Path
 from flask import Flask, render_template, request, redirect, url_for, make_response
+import os, sys
 
-DEV = True
-
-def resource_path(path):
-    import os, sys
-    global DEV
-    if hasattr(sys, "_MEIPASS"):  # Only exists inside PyInstaller binary
-        DEV = False
-        return os.path.join(sys._MEIPASS, path)
-    return os.path.join(os.path.abspath("."), path)
+FROZEN = hasattr(sys, "_MEIPASS")
+def resource_path(path: str) -> str:
+    """Get absolute path whether running from source or PyInstaller bundle."""
+    global FROZEN
+    base = sys._MEIPASS if FROZEN else os.path.abspath(".")
+    return os.path.join(base, path)
 
 app = Flask(
     __name__,
@@ -157,6 +154,9 @@ def reset():
     save_state(fields)
     return anchor_redirect()
 
-
 if __name__ == "__main__":
-    app.run(debug=not DEV)
+    if FROZEN:  # in bundled mode, run with production-ready WSGI
+        from waitress import serve
+        serve(app, host="127.0.0.1", port=5000)
+    else:
+        app.run(debug=True)
