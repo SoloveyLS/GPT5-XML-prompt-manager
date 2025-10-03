@@ -3,6 +3,19 @@ import uuid
 from pathlib import Path
 from flask import Flask, render_template, request, redirect, url_for, make_response
 
+
+def resource_path(path):
+    import os, sys
+    if hasattr(sys, "_MEIPASS"):  # Only exists inside PyInstaller binary
+        return os.path.join(sys._MEIPASS, path)
+    return os.path.join(os.path.abspath("."), path)
+
+app = Flask(
+    __name__,
+    template_folder=resource_path("templates"),
+    static_folder=resource_path("static"),
+)
+
 from models import (
     FieldNode,
     generate_default_tree,
@@ -13,7 +26,6 @@ from models import (
 )
 from store import load_state, save_state
 
-app = Flask(__name__)
 
 # Load or initialize state
 fields = load_state()

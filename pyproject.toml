@@ -7,7 +7,7 @@ name = "xml-manager"
 version = "0.1.0"
 description = "A lightweight XML manager providing fast XML prompt generation for GPT-5."
 authors = [
-    { name = "Oleg Solontsov", email = "solontsov.o@gmail.com" }
+    { name = "Oleg Solontsov", email = "solontsov.ov@gmail.com" }
 ]
 readme = "README.md"
 license = { text = "MIT" }
@@ -18,3 +18,8 @@ dependencies = [
 
 [project.urls]
 Repository = "https://github.com/SoloveyLS/GPT5-XML-prompt-manager"
+
+[dependency-groups]
+dev = [
+    "pyinstaller>=6.16.0",
+]
