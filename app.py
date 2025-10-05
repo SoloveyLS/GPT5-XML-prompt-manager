@@ -157,6 +157,15 @@ def reset():
 if __name__ == "__main__":
     if FROZEN:  # in bundled mode, run with production-ready WSGI
         from waitress import serve
-        serve(app, host="127.0.0.1", port=5000)
+        import argparse
+
+        parser = argparse.ArgumentParser(description='XML-manager app.')
+        parser.add_argument('-p', '--port', type=int, default=5000, 
+                            help='Port to run the server on (default: 5000)')
+        args = parser.parse_args()
+        host = '127.0.0.1'
+
+        print(f'Served at `{'127.0.0.1'}:{args.port}`')
+        serve(app, host='127.0.0.1', port=args.port)
     else:
         app.run(debug=True)
