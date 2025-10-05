@@ -33,7 +33,7 @@ python app.py
 ### Build:
 
 ```
-uv pyinstaller app.py --onefile --add-data "templates:templates" --add-data "static:static"
+uv pyinstaller --onefile --add-data "templates:templates" --add-data "static:static" app.py 
 ```
 or without `uv`:
 ```

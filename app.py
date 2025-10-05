@@ -165,7 +165,7 @@ if __name__ == "__main__":
         args = parser.parse_args()
         host = '127.0.0.1'
 
-        print(f'Served at `{'127.0.0.1'}:{args.port}`')
+        print(f'Served at http://{'127.0.0.1'}:{args.port}')
         serve(app, host='127.0.0.1', port=args.port)
     else:
         app.run(debug=True)

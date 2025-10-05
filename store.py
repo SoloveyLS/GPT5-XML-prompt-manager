@@ -9,7 +9,6 @@ DATA_PATH = Path(__file__).parent / "stored" / "data.json"
 
 def load_state() -> Optional[List[FieldNode]]:
     if not DATA_PATH.exists():
-        print('YUP')
         return None
     try:
         data = json.loads(DATA_PATH.read_text(encoding="utf-8"))
