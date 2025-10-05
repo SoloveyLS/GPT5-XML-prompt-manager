@@ -33,9 +33,9 @@ python app.py
 ### Build:
 
 ```
-uv pyinstaller --onefile --add-data "templates:templates" --add-data "static:static" app.py 
+uv run pyinstaller --onefile --add-data "templates:templates" --add-data "static:static" app.py
 ```
 or without `uv`:
 ```
-pyinstaller app.py --onefile --add-data "templates:templates" --add-data "static:static"
+pyinstaller --onefile --add-data "templates:templates" --add-data "static:static" app.py
 ```
