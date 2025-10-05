@@ -6,3 +6,36 @@ By the OpenAI cookbook it is known that the GPT-5-High works better with prompts
 
 - [ ] Shortcuts
 - [ ] Template managing
+
+## Usage:
+
+### With `uv`:
+
+```
+uv run app.py
+```
+
+### With `pip`:
+
+```
+cd /path/to/GPT5-XML-prompt-manager
+python -m venv .venv
+source ./.venv/bin/activate
+python app.py
+```
+
+### With binary:
+
+```
+/path/to/app
+```
+
+### Build:
+
+```
+uv pyinstaller app.py --onefile --add-data "templates:templates" --add-data "static:static"
+```
+or without `uv`:
+```
+pyinstaller app.py --onefile --add-data "templates:templates" --add-data "static:static"
+```
