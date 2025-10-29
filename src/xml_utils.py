@@ -49,6 +49,60 @@ def _render_element_lines(
     return lines
 
 
+# def _pretty_print_fragment(
+#     root: Element,
+#     indent: int = 4,
+#     gap_between_siblings: bool = True,
+#     trailing_newline: bool = True,
+# ) -> str:
+#     # Print only the children of the artificial root
+#     children = list(root)
+#     out_lines: list[str] = []
+#     for i, child in enumerate(children):
+#         out_lines.extend(_render_element_lines(child, 0, indent, gap_between_siblings))
+#         if gap_between_siblings and i < len(children) - 1:
+#             out_lines.append("")  # blank line between top-level siblings
+
+#     result = "\n".join(out_lines)
+#     if trailing_newline:
+#         result += "\n"
+#     return result
+def _render_element_lines(
+    el: Element,
+    depth: int,
+    indent: int,
+    gap_between_siblings: bool
+) -> list[str]:
+    pad = " " * (depth * indent)
+    lines: list[str] = []
+
+    # Open tag with newline before
+    open_tag_parts = [f"<{el.tag}"]
+    if el.attrib:
+        for k, v in el.attrib.items():
+            open_tag_parts.append(f" {k}={quoteattr(str(v))}")
+    open_tag_parts.append(">")
+    lines.append(f"{pad}{''.join(open_tag_parts)}")
+    lines.append("")
+
+    # Text content
+    if el.text is not None:
+        text = el.text.replace("\r\n", "\n").replace("\r", "\n")
+        tpad = " " * ((depth + 1) * indent)
+        for tline in text.split("\n"):
+            lines.append(f"{tpad}{escape(tline)}" if tline else tpad)
+
+    # Children
+    children = list(el)
+    for child in children:
+        lines.extend(_render_element_lines(child, depth + 1, indent, gap_between_siblings))
+
+    # Close tag
+    lines.append("")
+    lines.append(f"{pad}</{el.tag}>")
+    lines.append("")
+
+    return lines
 def _pretty_print_fragment(
     root: Element,
     indent: int = 4,
@@ -63,11 +117,25 @@ def _pretty_print_fragment(
         if gap_between_siblings and i < len(children) - 1:
             out_lines.append("")  # blank line between top-level siblings
 
+    # filter out repeating empty strings
+    def _line_check(line):
+        return len(line.strip()) == 0
+    
+    i = 1
+    while i < len(out_lines):
+        if _line_check(out_lines[i-1]) and _line_check(out_lines[i]):
+            out_lines.pop(i)
+        else:
+            i += 1
+
     result = "\n".join(out_lines)
-    if trailing_newline:
+    # Remove leading newline if present
+    if result.startswith("\n"):
+        result = result[1:]
+    # Ensure trailing newline
+    if trailing_newline and not result.endswith("\n"):
         result += "\n"
     return result
-
 
 def _to_xml_string(
     root, 
