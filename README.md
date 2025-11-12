@@ -1,6 +1,6 @@
 ## GPT-5 XML prompt manager
 
-By the OpenAI cookbook it is known that the GPT-5-High works better with prompts that are structured in a same way as the XML file. So this is just a tool for the lazy people like me to prepare those XMLs a bit faster.
+The OpenAI cookbook says that GPT-5-High works better with prompts formatted with XML tags—so I built this little tool to speed up XML tag construction for lazy folks like me.
 
 ## TODO:
 
